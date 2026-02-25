@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}About Us | FitForge Wellness Club{% endblock %}
+
+{% block content %}
+<section class="bg-slate-950">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-16 sm:pt-14 sm:pb-20">
+    <div class="grid gap-10 lg:grid-cols-2 items-start">
+      <div data-aos="fade-right">
+        <p class="text-xs font-semibold tracking-[0.25em] uppercase text-primary-400">
+          About Us
+        </p>
+        <h1 class="mt-3 text-3xl sm:text-4xl font-bold text-slate-50">
+          We are not just a gym.<br />
+          We are your performance lab.
+        </h1>
+        <p class="mt-4 text-sm sm:text-base text-slate-300 max-w-xl">
+          Inspired by premium spaces like FitBliss, Planet Fitness and Gold’s Gym, FitForge
+          blends luxury design with relentless training energy. We’ve crafted an environment
+          where beginners feel safe and athletes feel challenged—from the first warm-up set
+          to the last finisher.
+        </p>
+        <p class="mt-3 text-sm text-slate-400">
+          Our coaching team brings experience across strength &amp; conditioning, boxing,
+          functional training, Pilates, yoga and mobility. Every program is built around a
+          simple idea: train with intention, move better, feel unstoppable.
+        </p>
+        <dl class="mt-6 grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <dt class="text-slate-400">Founded with one mission</dt>
+            <dd class="text-slate-100 font-semibold">
+              To make world-class training feel accessible, personal and addictive—in the
+              best way.
+            </dd>
+          </div>
+          <div>
+            <dt class="text-slate-400">What we stand for</dt>
+            <dd class="text-slate-100 font-semibold">
+              Safe coaching. Smart programming. Serious results.
+            </dd>
+          </div>
+        </dl>
+      </div>
+      <div class="space-y-6" data-aos="fade-left">
+        <div class="rounded-3xl glass-panel p-5 flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <h2 class="text-base font-semibold text-slate-50">
+              Strength, stamina &amp; success—under one roof.
+            </h2>
+            <p class="mt-2 text-sm text-slate-300">
+              Separate zones for strength, cardio, boxing, functional and recovery mean you
+              never fight for space. It’s your daily arena to chase PRs, torch fat and build
+              unshakeable confidence.
+            </p>
+          </div>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-3 text-xs text-slate-300">
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+            <p class="text-lg font-bold text-slate-50">Cardio</p>
+            <p class="mt-1">
+              HIIT treadmills, air bikes and rowers designed for heart-pounding intervals and
+              endurance work.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+            <p class="text-lg font-bold text-slate-50">Boxing &amp; Zumba</p>
+            <p class="mt-1">
+              High-energy classes that make sweating feel like a full-blown party—music
+              loud, vibes high.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+            <p class="text-lg font-bold text-slate-50">Diet &amp; Recovery</p>
+            <p class="mt-1">
+              In-house nutrition guidance and mindful zones to help you refuel, reset and
+              keep training hard.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-slate-950/80 border-t border-white/5 pb-16 sm:pb-20">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row justify-between gap-6 mb-8">
+      <div data-aos="fade-right">
+        <p class="text-xs font-semibold tracking-[0.25em] uppercase text-primary-400">
+          Team
+        </p>
+        <h2 class="mt-2 text-2xl sm:text-3xl font-bold text-slate-50">
+          Strength in numbers. Power in teamwork.
+        </h2>
+        <p class="mt-2 text-sm text-slate-400 max-w-xl">
+          Behind every transformation is a coach who refuses to let you quit on yourself.
+        </p>
+      </div>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      {% for trainer in trainers %}
+      <article
+        class="card-hover rounded-2xl border border-slate-800 bg-slate-900/70 overflow-hidden flex flex-col"
+        data-aos="fade-up"
+      >
+        <div class="h-40 bg-slate-800/80 relative">
+          {% if trainer.photo %}
+          <img
+            src="{{ trainer.photo.url }}"
+            alt="{{ trainer.name }}"
+            class="h-full w-full object-cover"
+          />
+          {% endif %}
+        </div>
+        <div class="p-4 space-y-1">
+          <h3 class="text-base font-semibold text-slate-50">
+            {{ trainer.name }}
+          </h3>
+          <p class="text-xs text-primary-300 uppercase tracking-[0.2em]">
+            {{ trainer.role }}
+          </p>
+          {% if trainer.specialty %}
+          <p class="text-xs text-slate-400">
+            {{ trainer.specialty }}
+          </p>
+          {% endif %}
+        </div>
+      </article>
+      {% empty %}
+      <p class="text-sm text-slate-400 md:col-span-3">
+        Add trainers in the admin panel to showcase your coaching team here.
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+

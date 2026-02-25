@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Trainers | FitForge Wellness Club{% endblock %}
+
+{% block content %}
+<section class="bg-slate-950">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-16 sm:pt-14 sm:pb-20">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10">
+      <div data-aos="fade-right">
+        <p class="text-xs font-semibold tracking-[0.25em] uppercase text-primary-400">
+          Trainers
+        </p>
+        <h1 class="mt-3 text-3xl sm:text-4xl font-bold text-slate-50">
+          Meet the minds behind the muscle.
+        </h1>
+        <p class="mt-3 text-sm sm:text-base text-slate-300 max-w-xl">
+          Certified strength coaches, boxing specialists, mobility experts and group fitness
+          rockstars—ready to guide every rep, round and stretch.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {% for trainer in trainers %}
+      <article
+        class="card-hover rounded-2xl border border-slate-800 bg-slate-900/70 overflow-hidden flex flex-col"
+        data-aos="fade-up"
+      >
+        <div class="h-44 bg-slate-800/80 relative">
+          {% if trainer.photo %}
+          <img
+            src="{{ trainer.photo.url }}"
+            alt="{{ trainer.name }}"
+            class="h-full w-full object-cover"
+          />
+          {% else %}
+          <div class="absolute inset-0 bg-gradient-to-tr from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+            <span class="text-5xl">🏋️</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="p-4 flex-1 flex flex-col">
+          <div class="space-y-1">
+            <h2 class="text-base font-semibold text-slate-50">
+              {{ trainer.name }}
+            </h2>
+            <p class="text-xs text-primary-300 uppercase tracking-[0.2em]">
+              {{ trainer.role }}
+            </p>
+            {% if trainer.specialty %}
+            <p class="text-xs text-slate-400">
+              {{ trainer.specialty }}
+            </p>
+            {% endif %}
+            {% if trainer.experience_years %}
+            <p class="text-xs text-slate-500">
+              {{ trainer.experience_years }}+ years of coaching experience
+            </p>
+            {% endif %}
+          </div>
+          {% if trainer.bio %}
+          <p class="mt-3 text-xs text-slate-300 line-clamp-4">
+            {{ trainer.bio }}
+          </p>
+          {% endif %}
+          <div class="mt-4 flex gap-3 text-xs text-slate-400">
+            {% if trainer.instagram_url %}
+            <a href="{{ trainer.instagram_url }}" target="_blank" class="hover:text-primary-300">
+              Instagram
+            </a>
+            {% endif %}
+            {% if trainer.facebook_url %}
+            <a href="{{ trainer.facebook_url }}" target="_blank" class="hover:text-primary-300">
+              Facebook
+            </a>
+            {% endif %}
+            {% if trainer.youtube_url %}
+            <a href="{{ trainer.youtube_url }}" target="_blank" class="hover:text-primary-300">
+              YouTube
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% empty %}
+      <p class="text-sm text-slate-400 md:col-span-2 lg:col-span-3">
+        Add trainers in the admin panel to introduce your coaching squad here.
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+

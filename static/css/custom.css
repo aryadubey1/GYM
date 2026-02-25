@@ -1,0 +1,33 @@
+.hero-gradient {
+  background: radial-gradient(circle at top left, #f97316 0, transparent 55%),
+    radial-gradient(circle at top right, #ec4899 0, transparent 55%),
+    radial-gradient(circle at bottom, #22c55e 0, transparent 60%),
+    #020617;
+}
+
+.glass-panel {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+}
+
+.card-hover {
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+  border-color: rgba(244, 63, 94, 0.7);
+}
+
+.nav-link {
+  color: #e2e8f0;
+  transition: color 150ms ease;
+}
+
+.nav-link:hover {
+  color: #fb7185;
+}
+

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}FitForge Wellness Club{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                500: "#e11d48",
+                600: "#be123c",
+                700: "#9f1239",
+              },
+              dark: "#050816",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/aos@2.3.4/dist/aos.css"
+    />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+    <header
+      class="fixed inset-x-0 top-0 z-40 backdrop-blur bg-slate-950/70 border-b border-white/5"
+    >
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="{% url 'core:home' %}" class="flex items-center gap-2">
+            <div
+              class="h-9 w-9 rounded-xl bg-gradient-to-tr from-primary-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-primary-500/40"
+            >
+              <span class="text-xl font-black tracking-tight">FF</span>
+            </div>
+            <div class="flex flex-col leading-tight">
+              <span class="font-semibold text-sm uppercase tracking-[0.2em]"
+                >FitForge</span
+              >
+              <span class="text-xs text-slate-400"
+                >Premium Strength &amp; Wellness</span
+              >
+            </div>
+          </a>
+          <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="{% url 'core:home' %}" class="nav-link">Home</a>
+            <a href="{% url 'core:about' %}" class="nav-link">About</a>
+            <a href="{% url 'core:services' %}" class="nav-link">Services</a>
+            <a href="{% url 'core:trainers' %}" class="nav-link">Trainers</a>
+            <a href="{% url 'core:contact' %}" class="nav-link">Contact</a>
+          </nav>
+          <div class="flex items-center gap-3">
+            {% if site_settings and site_settings.phone_primary %}
+            <div class="hidden md:flex flex-col text-right text-xs">
+              <span class="text-slate-400">Call to start</span>
+              <a
+                href="tel:{{ site_settings.phone_primary }}"
+                class="font-semibold text-primary-400 hover:text-primary-300"
+                >{{ site_settings.phone_primary }}</a
+              >
+            </div>
+            {% endif %}
+            <a
+              href="{% url 'core:contact' %}"
+              class="rounded-full bg-primary-600 hover:bg-primary-500 px-4 py-2 text-xs sm:text-sm font-semibold tracking-wide shadow shadow-primary-500/40 transition"
+            >
+              Join Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 pt-20">
+      {% if messages %}
+      <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 mb-4 space-y-2">
+        {% for message in messages %}
+        <div
+          class="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100"
+        >
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-white/5 mt-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 grid gap-8 md:grid-cols-4 text-sm">
+        <div>
+          <p class="font-semibold text-slate-100 mb-2">
+            {{ site_settings.site_name|default:"FitForge Wellness Club" }}
+          </p>
+          <p class="text-slate-400">
+            High-energy training, science-backed programming, and a community
+            that refuses to settle for average.
+          </p>
+        </div>
+        <div>
+          <p class="font-semibold mb-2 text-slate-100">Explore</p>
+          <ul class="space-y-1 text-slate-400">
+            <li><a href="{% url 'core:home' %}" class="hover:text-primary-400">Home</a></li>
+            <li><a href="{% url 'core:about' %}" class="hover:text-primary-400">About</a></li>
+            <li><a href="{% url 'core:services' %}" class="hover:text-primary-400">Programs</a></li>
+            <li><a href="{% url 'core:trainers' %}" class="hover:text-primary-400">Coaches</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-2 text-slate-100">Contact</p>
+          <ul class="space-y-1 text-slate-400">
+            {% if site_settings and site_settings.address_line %}
+            <li>{{ site_settings.address_line }}, {{ site_settings.city }} {{ site_settings.state }}</li>
+            {% endif %}
+            {% if site_settings and site_settings.email %}
+            <li><a href="mailto:{{ settings.email }}" class="hover:text-primary-400">{{ site_settings.email }}</a></li>
+            {% endif %}
+            {% if site_settings and site_settings.phone_primary %}
+            <li><a href="tel:{{ site_settings.phone_primary }}" class="hover:text-primary-400">{{ site_settings.phone_primary }}</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-2 text-slate-100">Hours</p>
+          <p class="text-slate-400">
+            Monday – Saturday: 5:30 AM – 11:00 PM<br />
+            Sunday: 7:00 AM – 9:00 PM
+          </p>
+        </div>
+      </div>
+      <div class="border-t border-white/5 py-4 text-xs text-center text-slate-500">
+        © {% now "Y" %} {{ site_settings.site_name|default:"FitForge Wellness Club" }}. All rights reserved.
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        once: true,
+        duration: 700,
+        easing: "ease-out-cubic",
+      });
+    </script>
+    <script src="{% static 'js/hero-slider.js' %}"></script>
+    {% block extra_body %}{% endblock %}
+  </body>
+</html>
+
