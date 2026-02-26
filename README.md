@@ -19,8 +19,8 @@ Then open `http://127.0.0.1:8000/` in your browser.
 ### 2. Admin Access
 
 - **URL**: `http://127.0.0.1:8000/admin/`
-- **Username**: `admin`
-- **Password**: `Arya@123`
+- **Username**: `DJANGO_SUPERUSER_USERNAME`
+- **Password**: `DJANGO_SUPERUSER_PASSWORD`
 
 From the admin you can fully customise:
 
