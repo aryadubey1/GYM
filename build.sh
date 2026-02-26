@@ -11,10 +11,17 @@ python manage.py migrate
 python manage.py shell << END
 from django.contrib.auth import get_user_model
 import os
+import sys
+
 User = get_user_model()
-username = os.getenv('DJANGO_SUPERUSER_USERNAME', 'admin')
-email = os.getenv('DJANGO_SUPERUSER_EMAIL', 'admin@example.com')
-password = os.getenv('DJANGO_SUPERUSER_PASSWORD', 'Ary@123')
+username = os.getenv('DJANGO_SUPERUSER_USERNAME')
+email = os.getenv('DJANGO_SUPERUSER_EMAIL')
+password = os.getenv('DJANGO_SUPERUSER_PASSWORD')
+
+# Safety check: if variables aren't set in Render, don't run this
+if not all([username, email, password]):
+    print("SKIPPING SUPERUSER: Environment variables not set.")
+    sys.exit(0)
 
 if not User.objects.filter(username=username).exists():
     User.objects.create_superuser(username, email, password)
