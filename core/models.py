@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 
 
 class TimeStampedModel(models.Model):
@@ -98,6 +99,16 @@ class HeroSlide(TimeStampedModel):
     background_image = models.ImageField(
         upload_to="hero_slides/", blank=True, null=True
     )
+
+    # NEW: optional video — if set, takes priority over background_image
+    background_video = models.FileField(
+        upload_to="hero_slides/videos/",
+        blank=True,
+        null=True,
+        storage=VideoMediaCloudinaryStorage(),
+        help_text="Upload an MP4/WebM video. If set, it will be used instead of the background image.",
+    )
+
     overlay_color = models.CharField(
         max_length=20,
         default="bg-black/60",
@@ -108,6 +119,10 @@ class HeroSlide(TimeStampedModel):
 
     class Meta:
         ordering = ["order"]
+
+    @property
+    def has_video(self) -> bool:
+        return bool(self.background_video)
 
     def __str__(self) -> str:
         return self.title

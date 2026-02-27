@@ -11,9 +11,14 @@
           extend: {
             colors: {
               primary: {
+                200: "#fecdd3",
+                300: "#fda4af",
+                400: "#fb7185",
                 500: "#e11d48",
                 600: "#be123c",
                 700: "#9f1239",
+                900: "#4c0519",
+                950: "#27030e",
               },
               dark: "#050816",
             },
@@ -21,71 +26,87 @@
         },
       };
     </script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/aos@2.3.4/dist/aos.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
     {% block extra_head %}{% endblock %}
   </head>
   <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
-    <header
-      class="fixed inset-x-0 top-0 z-40 backdrop-blur bg-slate-950/70 border-b border-white/5"
-    >
+
+    <!-- ── Header ──────────────────────────────────────────── -->
+    <header class="fixed inset-x-0 top-0 z-40 backdrop-blur-xl bg-slate-950/80 border-b border-white/5">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
-          <a href="{% url 'core:home' %}" class="flex items-center gap-2">
-            <div
-              class="h-9 w-9 rounded-xl bg-gradient-to-tr from-primary-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-primary-500/40"
-            >
-              <span class="text-xl font-black tracking-tight">FF</span>
+
+          <!-- Logo -->
+          <a href="{% url 'core:home' %}" class="flex items-center gap-2.5 group">
+            <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-primary-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-primary-500/40 group-hover:shadow-primary-500/60 transition-shadow duration-300">
+              <span class="text-base font-black tracking-tight font-sans">FF</span>
             </div>
             <div class="flex flex-col leading-tight">
-              <span class="font-semibold text-sm uppercase tracking-[0.2em]"
-                >FitForge</span
-              >
-              <span class="text-xs text-slate-400"
-                >Premium Strength &amp; Wellness</span
-              >
+              <span class="font-semibold text-xs uppercase tracking-[0.22em] text-slate-100">FitForge</span>
+              <span class="text-[10px] text-slate-500">Premium Strength &amp; Wellness</span>
             </div>
           </a>
-          <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+
+          <!-- Desktop nav -->
+          <nav class="hidden md:flex items-center gap-7">
             <a href="{% url 'core:home' %}" class="nav-link">Home</a>
             <a href="{% url 'core:about' %}" class="nav-link">About</a>
             <a href="{% url 'core:services' %}" class="nav-link">Services</a>
             <a href="{% url 'core:trainers' %}" class="nav-link">Trainers</a>
             <a href="{% url 'core:contact' %}" class="nav-link">Contact</a>
           </nav>
+
+          <!-- Right side -->
           <div class="flex items-center gap-3">
             {% if site_settings and site_settings.phone_primary %}
-            <div class="hidden md:flex flex-col text-right text-xs">
-              <span class="text-slate-400">Call to start</span>
-              <a
-                href="tel:{{ site_settings.phone_primary }}"
-                class="font-semibold text-primary-400 hover:text-primary-300"
-                >{{ site_settings.phone_primary }}</a
-              >
+            <div class="hidden lg:flex flex-col text-right text-[11px]">
+              <span class="text-slate-500 uppercase tracking-wider">Call us</span>
+              <a href="tel:{{ site_settings.phone_primary }}" class="font-semibold text-primary-400 hover:text-primary-300 transition-colors">
+                {{ site_settings.phone_primary }}
+              </a>
             </div>
             {% endif %}
-            <a
-              href="{% url 'core:contact' %}"
-              class="rounded-full bg-primary-600 hover:bg-primary-500 px-4 py-2 text-xs sm:text-sm font-semibold tracking-wide shadow shadow-primary-500/40 transition"
-            >
+            <a href="{% url 'core:contact' %}" class="btn-shimmer rounded-full bg-primary-600 hover:bg-primary-500 px-5 py-2 text-xs font-semibold uppercase tracking-wider shadow shadow-primary-500/40 transition-colors duration-200 cta-glow">
               Join Now
             </a>
+            <!-- Hamburger -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition" aria-label="Toggle menu">
+              <svg id="menu-icon-open" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
           </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu">
+          <nav class="py-4 flex flex-col gap-1 border-t border-white/5">
+            <a href="{% url 'core:home' %}" class="px-3 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition">Home</a>
+            <a href="{% url 'core:about' %}" class="px-3 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition">About</a>
+            <a href="{% url 'core:services' %}" class="px-3 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition">Services</a>
+            <a href="{% url 'core:trainers' %}" class="px-3 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition">Trainers</a>
+            <a href="{% url 'core:contact' %}" class="px-3 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition">Contact</a>
+            {% if site_settings and site_settings.phone_primary %}
+            <a href="tel:{{ site_settings.phone_primary }}" class="px-3 py-2.5 text-sm font-semibold text-primary-400 hover:text-primary-300 transition">
+              📞 {{ site_settings.phone_primary }}
+            </a>
+            {% endif %}
+          </nav>
         </div>
       </div>
     </header>
 
-    <main class="flex-1 pt-20">
+    <!-- ── Messages ─────────────────────────────────────────── -->
+    <main class="flex-1 pt-16">
       {% if messages %}
-      <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 mb-4 space-y-2">
+      <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 mt-4 space-y-2">
         {% for message in messages %}
-        <div
-          class="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100"
-        >
+        <div class="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
           {{ message }}
         </div>
         {% endfor %}
@@ -94,63 +115,94 @@
       {% block content %}{% endblock %}
     </main>
 
-    <footer class="border-t border-white/5 mt-16">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 grid gap-8 md:grid-cols-4 text-sm">
+    <!-- ── Footer ──────────────────────────────────────────── -->
+    <footer class="border-t border-white/5 mt-16 relative overflow-hidden">
+      <!-- Footer orb -->
+      <div class="orb orb-float-3 w-96 h-96 bg-primary-500/5 -bottom-48 left-1/2 -translate-x-1/2"></div>
+
+      <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 grid gap-10 md:grid-cols-4 text-sm">
         <div>
-          <p class="font-semibold text-slate-100 mb-2">
-            {{ site_settings.site_name|default:"FitForge Wellness Club" }}
+          <div class="flex items-center gap-2 mb-4">
+            <div class="h-8 w-8 rounded-lg bg-gradient-to-tr from-primary-500 to-fuchsia-500 flex items-center justify-center">
+              <span class="text-xs font-black">FF</span>
+            </div>
+            <span class="font-semibold text-slate-100 text-xs uppercase tracking-wider">FitForge</span>
+          </div>
+          <p class="text-slate-500 text-xs leading-relaxed">
+            High-energy training, science-backed programming, and a community that refuses to settle for average.
           </p>
-          <p class="text-slate-400">
-            High-energy training, science-backed programming, and a community
-            that refuses to settle for average.
-          </p>
+          <div class="mt-4 section-divider"></div>
         </div>
         <div>
-          <p class="font-semibold mb-2 text-slate-100">Explore</p>
-          <ul class="space-y-1 text-slate-400">
-            <li><a href="{% url 'core:home' %}" class="hover:text-primary-400">Home</a></li>
-            <li><a href="{% url 'core:about' %}" class="hover:text-primary-400">About</a></li>
-            <li><a href="{% url 'core:services' %}" class="hover:text-primary-400">Programs</a></li>
-            <li><a href="{% url 'core:trainers' %}" class="hover:text-primary-400">Coaches</a></li>
+          <p class="font-semibold mb-3 text-slate-100 text-xs uppercase tracking-wider">Explore</p>
+          <ul class="space-y-2 text-slate-500">
+            <li><a href="{% url 'core:home' %}" class="hover:text-primary-400 transition-colors text-xs">Home</a></li>
+            <li><a href="{% url 'core:about' %}" class="hover:text-primary-400 transition-colors text-xs">About</a></li>
+            <li><a href="{% url 'core:services' %}" class="hover:text-primary-400 transition-colors text-xs">Programs</a></li>
+            <li><a href="{% url 'core:trainers' %}" class="hover:text-primary-400 transition-colors text-xs">Coaches</a></li>
+            <li><a href="{% url 'core:contact' %}" class="hover:text-primary-400 transition-colors text-xs">Contact</a></li>
           </ul>
         </div>
         <div>
-          <p class="font-semibold mb-2 text-slate-100">Contact</p>
-          <ul class="space-y-1 text-slate-400">
+          <p class="font-semibold mb-3 text-slate-100 text-xs uppercase tracking-wider">Contact</p>
+          <ul class="space-y-2 text-slate-500 text-xs">
             {% if site_settings and site_settings.address_line %}
-            <li>{{ site_settings.address_line }}, {{ site_settings.city }} {{ site_settings.state }}</li>
+            <li class="leading-relaxed">{{ site_settings.address_line }}, {{ site_settings.city }} {{ site_settings.state }}</li>
             {% endif %}
             {% if site_settings and site_settings.email %}
-            <li><a href="mailto:{{ settings.email }}" class="hover:text-primary-400">{{ site_settings.email }}</a></li>
+            <li><a href="mailto:{{ site_settings.email }}" class="hover:text-primary-400 transition-colors">{{ site_settings.email }}</a></li>
             {% endif %}
             {% if site_settings and site_settings.phone_primary %}
-            <li><a href="tel:{{ site_settings.phone_primary }}" class="hover:text-primary-400">{{ site_settings.phone_primary }}</a></li>
+            <li><a href="tel:{{ site_settings.phone_primary }}" class="hover:text-primary-400 transition-colors">{{ site_settings.phone_primary }}</a></li>
             {% endif %}
           </ul>
         </div>
         <div>
-          <p class="font-semibold mb-2 text-slate-100">Hours</p>
-          <p class="text-slate-400">
-            Monday – Saturday: 5:30 AM – 11:00 PM<br />
-            Sunday: 7:00 AM – 9:00 PM
-          </p>
+          <p class="font-semibold mb-3 text-slate-100 text-xs uppercase tracking-wider">Hours</p>
+          <div class="space-y-1 text-slate-500 text-xs">
+            <p>Mon – Sat &nbsp;<span class="text-slate-300">5:30 AM – 11:00 PM</span></p>
+            <p>Sunday &nbsp;&nbsp;&nbsp;<span class="text-slate-300">7:00 AM – 9:00 PM</span></p>
+          </div>
+          <div class="mt-4 flex items-center gap-1.5">
+            <span class="relative flex h-2 w-2">
+              <span class="ping-slow absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+            </span>
+            <span class="text-[11px] text-emerald-400">Open now</span>
+          </div>
         </div>
       </div>
-      <div class="border-t border-white/5 py-4 text-xs text-center text-slate-500">
-        © {% now "Y" %} {{ site_settings.site_name|default:"FitForge Wellness Club" }}. All rights reserved.
+      <div class="border-t border-white/5 py-4 text-[11px] text-center text-slate-600">
+        © {% now "Y" %} {{ site_settings.site_name|default:"FitForge Wellness Club" }}. All rights reserved. &nbsp;·&nbsp; Built for champions.
       </div>
     </footer>
 
+    <!-- ── Scripts ──────────────────────────────────────────── -->
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
+      // AOS — mirror:true makes animations replay on scroll up too
       AOS.init({
-        once: true,
-        duration: 700,
+        once: false,
+        mirror: true,
+        duration: 650,
         easing: "ease-out-cubic",
+        offset: 60,
       });
+
+      // Mobile menu toggle
+      const toggle = document.getElementById("menu-toggle");
+      const menu   = document.getElementById("mobile-menu");
+      const iconO  = document.getElementById("menu-icon-open");
+      const iconC  = document.getElementById("menu-icon-close");
+      if (toggle && menu) {
+        toggle.addEventListener("click", () => {
+          const isOpen = menu.classList.toggle("open");
+          iconO.classList.toggle("hidden", isOpen);
+          iconC.classList.toggle("hidden", !isOpen);
+        });
+      }
     </script>
     <script src="{% static 'js/hero-slider.js' %}"></script>
     {% block extra_body %}{% endblock %}
   </body>
 </html>
-
