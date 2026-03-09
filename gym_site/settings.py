@@ -94,6 +94,12 @@ DATABASES = {
 }
 
 
+# Force Project A to use its own schema on Render
+if os.getenv('RENDER'): # A safer check than 'not DEBUG'
+    DATABASES['default']['OPTIONS'] = {
+        'options': '-c search_path=project_a_schema'
+    }
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
