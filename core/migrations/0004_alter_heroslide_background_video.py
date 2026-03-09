@@ -11,5 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        
+        migrations.AlterField(
+            model_name='heroslide',
+            name='background_video',
+            field=models.FileField(blank=True, help_text='Upload an MP4/WebM video. If set, it will be used instead of the background image.', null=True, storage=cloudinary_storage.storage.VideoMediaCloudinaryStorage(), upload_to='hero_slides/videos/'),
+        ),
     ]
