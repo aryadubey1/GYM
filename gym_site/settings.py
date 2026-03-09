@@ -160,6 +160,11 @@ STORAGES = {
     },
 }
 
+if not DEBUG:
+    DATABASES['default']['OPTIONS'] = {
+        'options': '-c search_path=project_a_schema'
+    }
+
 # Cloudinary Credentials
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
