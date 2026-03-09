@@ -10,5 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-       
+        migrations.AddField(
+            model_name='heroslide',
+            name='background_video',
+            field=models.FileField(blank=True, null=True, upload_to='hero_slides/videos/'),
+        ),
     ]
