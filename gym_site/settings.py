@@ -10,12 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import dj_database_url
 from pathlib import Path
 import os
-from pickle import TRUE
 from dotenv import load_dotenv
 load_dotenv()
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,17 +87,23 @@ WSGI_APPLICATION = 'gym_site.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',  # ← fallback when no DATABASE_URL
+        conn_max_age=600,
+        conn_health_checks=True,
     )
 }
 
+# Neon requires SSL — enforce it
+if os.getenv('DATABASE_URL'):
+    DATABASES['default'].setdefault('OPTIONS', {})
+    DATABASES['default']['OPTIONS']['sslmode'] = 'require'
 
-# Force Project A to use its own schema on Render
-if os.getenv('RENDER'): # A safer check than 'not DEBUG'
-    DATABASES['default']['OPTIONS'] = {
-        'options': '-c search_path=project_a_schema'
-    }
+
+# # Force Project A to use its own schema on Render
+# if os.getenv('RENDER'): # A safer check than 'not DEBUG'
+#     DATABASES['default']['OPTIONS'] = {
+#         'options': '-c search_path=project_a_schema'
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -166,10 +171,10 @@ STORAGES = {
     },
 }
 
-if not DEBUG:
-    DATABASES['default']['OPTIONS'] = {
-        'options': '-c search_path=project_a_schema'
-    }
+# if not DEBUG:
+#     DATABASES['default']['OPTIONS'] = {
+#         'options': '-c search_path=project_a_schema'
+#     }
 
 # Cloudinary Credentials
 CLOUDINARY_STORAGE = {
