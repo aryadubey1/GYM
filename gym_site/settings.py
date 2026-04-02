@@ -29,9 +29,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['gym-ova0.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['fitforge-87s4.onrender.com', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = [
-    'https://gym-ova0.onrender.com',
+    'fitforge-87s4.onrender.com',
 ]
 
 
