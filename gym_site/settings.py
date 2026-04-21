@@ -90,22 +90,14 @@ if DATABASE_URL:
     DATABASES = {
         'default': {
             **dj_database_url.parse(DATABASE_URL),
-            'CONN_MAX_AGE': 600,
+            'CONN_MAX_AGE': 0,        # ← critical for Neon free tier
             'CONN_HEALTH_CHECKS': True,
+            'OPTIONS': {
+                'connect_timeout': 10,
+                'sslmode': 'require',  # good practice for Neon
+            }
         }
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-
-# Neon requires SSL — enforce it
-if os.getenv('DATABASE_URL'):
-    DATABASES['default'].setdefault('OPTIONS', {})
-    DATABASES['default']['OPTIONS']['sslmode'] = 'require'
 
 
 # # Force Project A to use its own schema on Render
