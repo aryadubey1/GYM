@@ -90,11 +90,10 @@ if DATABASE_URL:
     DATABASES = {
         'default': {
             **dj_database_url.parse(DATABASE_URL),
-            'CONN_MAX_AGE': 0,        # ← critical for Neon free tier
+            'CONN_MAX_AGE': 600,  
             'CONN_HEALTH_CHECKS': True,
             'OPTIONS': {
                 'connect_timeout': 10,
-                'sslmode': 'require',  # good practice for Neon
             }
         }
     }
