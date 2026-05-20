@@ -29,13 +29,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['fitforge.clarifyweb.com', 'www.fitforge.clarifyweb.com', 'localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = [
-    'https://fitforge.clarifyweb.com',
-]
-
-
-# Application definition
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,9 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third-party
     'rest_framework',
-    # Local apps
     'core',
     'cloudinary',
 ]
@@ -99,11 +92,6 @@ if DATABASE_URL:
     }
 
 
-# # Force Project A to use its own schema on Render
-# if os.getenv('RENDER'): # A safer check than 'not DEBUG'
-#     DATABASES['default']['OPTIONS'] = {
-#         'options': '-c search_path=project_a_schema'
-#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -142,7 +130,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# For production static file handling
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = 'media/'
@@ -171,10 +158,6 @@ STORAGES = {
     },
 }
 
-# if not DEBUG:
-#     DATABASES['default']['OPTIONS'] = {
-#         'options': '-c search_path=project_a_schema'
-#     }
 
 # Cloudinary Credentials
 CLOUDINARY_STORAGE = {
