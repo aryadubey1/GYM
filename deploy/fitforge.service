@@ -1,5 +1,5 @@
 [Unit]
-Description=fitforge (fitforge.clarifyweb.com) - Django on gunicorn
+Description=fitforge (fitforge.aryadubey.tech) - Django on gunicorn
 After=network.target postgresql.service
 
 [Service]
