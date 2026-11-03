@@ -1,0 +1,15 @@
+{% load site_extras %}
+<ul class="border-t border-white/10" role="list">
+  {% for service in services %}
+  <li class="prog-row rv border-b border-white/10">
+    <a href="{% url 'core:contact' %}" class="grid gap-3 px-1 py-8 sm:px-4 md:grid-cols-12 md:items-baseline md:gap-8 md:py-10">
+      <h3 class="prog-name md:col-span-5 text-[clamp(2rem,4vw,3.25rem)] font-semibold text-white">{{ service.name }}</h3>
+      <div class="md:col-span-6">
+        {% if service.short_tagline %}<p class="font-semibold text-bone">{{ service.short_tagline }}</p>{% endif %}
+        <p class="mt-1.5 text-bone-3 {% if compact %}line-clamp-2{% endif %}">{{ service.description|clean_desc }}</p>
+      </div>
+      <span class="hidden md:col-span-1 md:block text-right text-2xl text-ember-soft" aria-hidden="true">→</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>

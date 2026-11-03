@@ -1,134 +1,69 @@
 {% extends "base.html" %}
 {% load form_extras %}
-
-{% block title %}Contact Us | FitForge Wellness Club{% endblock %}
-
+{% block title %}Contact · FitForge Wellness Club{% endblock %}
 {% block content %}
+{% include "core/_page_head.html" with pick="2:3" line1="Rise above." line2="Own your progress." lead="Leave your details and a coach will call to help you pick a plan, whether it's fat loss, muscle gain, performance or simply feeling good in your own skin." %}
 
-<section class="relative bg-slate-950 overflow-hidden pt-10 pb-20 sm:pt-14 sm:pb-28">
-  <div class="orb orb-float-1 w-[500px] h-[500px] bg-primary-500/8 -top-32 -right-32 pointer-events-none"></div>
-  <div class="orb orb-float-3 w-[400px] h-[400px] bg-fuchsia-500/5 bottom-0 left-0 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22%3E%3Cpath d=%22M0 0h60v60H0z%22 fill=%22none%22 stroke=%22rgba(148,163,184,0.03)%22 stroke-width=%221%22/%3E%3C/svg%3E')] pointer-events-none"></div>
-
-  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-14 lg:grid-cols-2 items-start">
-
-    <!-- Left: info + FAQs -->
-    <div>
-      <p class="text-xs font-semibold tracking-[0.3em] uppercase text-primary-400 mb-3" data-aos="fade-up">Contact Us</p>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-50 leading-tight" data-aos="fade-up" data-aos-delay="80">
-        Rise above.<br/>
-        <span class="gradient-text">Own your destiny.</span>
-      </h1>
-      <p class="mt-5 text-sm sm:text-base text-slate-400 max-w-lg leading-relaxed" data-aos="fade-up" data-aos-delay="140">
-        Drop your details and our team will help you choose the perfect plan — whether it's fat loss, muscle gain, performance or simply feeling amazing in your own skin.
-      </p>
-
-      <!-- Contact details -->
-      <div class="mt-8 space-y-3" data-aos="fade-up" data-aos-delay="200">
-        {% if site_settings and site_settings.phone_primary %}
-        <a href="tel:{{ site_settings.phone_primary }}" class="card-hover flex items-center gap-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-4 text-sm group">
-          <div class="icon-ring w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0">📞</div>
-          <div>
-            <p class="text-[10px] uppercase tracking-wider text-slate-500 mb-0.5">Phone</p>
-            <p class="text-slate-200 font-semibold group-hover:text-primary-300 transition-colors">{{ site_settings.phone_primary }}</p>
-          </div>
-        </a>
-        {% endif %}
-        {% if site_settings and site_settings.email %}
-        <a href="mailto:{{ site_settings.email }}" class="card-hover flex items-center gap-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-4 text-sm group">
-          <div class="icon-ring w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0">✉️</div>
-          <div>
-            <p class="text-[10px] uppercase tracking-wider text-slate-500 mb-0.5">Email</p>
-            <p class="text-slate-200 font-semibold group-hover:text-primary-300 transition-colors">{{ site_settings.email }}</p>
-          </div>
-        </a>
-        {% endif %}
-        {% if site_settings and site_settings.address_line %}
-        <div class="card-hover flex items-center gap-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-4 text-sm">
-          <div class="icon-ring w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0">📍</div>
-          <div>
-            <p class="text-[10px] uppercase tracking-wider text-slate-500 mb-0.5">Address</p>
-            <p class="text-slate-200 font-semibold">{{ site_settings.address_line }}, {{ site_settings.city }} {{ site_settings.state }}</p>
-          </div>
-        </div>
-        {% endif %}
+<section class="wrap grid gap-14 pt-20 lg:grid-cols-12">
+  <div class="lg:col-span-7" id="contact">
+    <form method="post" class="rv card grid gap-5 p-7 sm:grid-cols-2 sm:p-10" novalidate>
+      {% csrf_token %}
+      <h2 class="text-4xl font-bold text-white sm:col-span-2">Start your free week</h2>
+      <div class="space-y-2">
+        <label for="{{ form.full_name.id_for_label }}" class="text-[15px] font-semibold text-bone-2">Full name</label>
+        {{ form.full_name|add_class:"field" }}
+        {% if form.full_name.errors %}<p class="text-[14px] text-ember-soft" role="alert">{{ form.full_name.errors.0 }}</p>{% endif %}
       </div>
-
-      <!-- FAQs -->
-      {% if faqs %}
-      <div class="mt-12" data-aos="fade-up" data-aos-delay="240">
-        <p class="text-xs font-semibold tracking-[0.3em] uppercase text-primary-400 mb-5">FAQs</p>
-        <div class="space-y-3">
-          {% for faq in faqs %}
-          <div class="card-hover rounded-2xl border border-slate-800 bg-slate-900/50 p-4">
-            <p class="text-sm font-semibold text-slate-100">{{ faq.question }}</p>
-            <p class="mt-1.5 text-xs text-slate-400 leading-relaxed">{{ faq.answer }}</p>
-          </div>
-          {% endfor %}
-        </div>
+      <div class="space-y-2">
+        <label for="{{ form.phone.id_for_label }}" class="text-[15px] font-semibold text-bone-2">Phone <span class="font-normal text-bone-4">(optional)</span></label>
+        {{ form.phone|add_class:"field" }}
+        {% if form.phone.errors %}<p class="text-[14px] text-ember-soft" role="alert">{{ form.phone.errors.0 }}</p>{% endif %}
       </div>
-      {% endif %}
+      <div class="space-y-2 sm:col-span-2">
+        <label for="{{ form.email.id_for_label }}" class="text-[15px] font-semibold text-bone-2">Email</label>
+        {{ form.email|add_class:"field" }}
+        {% if form.email.errors %}<p class="text-[14px] text-ember-soft" role="alert">{{ form.email.errors.0 }}</p>{% endif %}
+      </div>
+      <div class="space-y-2 sm:col-span-2">
+        <label for="{{ form.message.id_for_label }}" class="text-[15px] font-semibold text-bone-2">Your goals</label>
+        {{ form.message|add_class:"field h-32 resize-y" }}
+        {% if form.message.errors %}<p class="text-[14px] text-ember-soft" role="alert">{{ form.message.errors.0 }}</p>{% endif %}
+      </div>
+      <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+        <button type="submit" class="btn-ember">Send my details <span class="arr" aria-hidden="true">→</span></button>
+        <p class="text-[14px] text-bone-4">A coach usually replies the same day.</p>
+      </div>
+    </form>
+
+    {% if site_settings and site_settings.google_maps_embed_url %}
+    <div class="rv mt-6 overflow-hidden rounded-card">
+      <iframe title="Map to FitForge" src="{{ site_settings.google_maps_embed_url }}" width="100%" height="280" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
+    {% endif %}
+  </div>
 
-    <!-- Right: form + map -->
-    <div class="space-y-6" data-aos="fade-left" data-aos-delay="100" id="contact">
-
-      <!-- Form card -->
-      <div class="rounded-3xl glass-panel p-7 slider-glow">
-        <h2 class="text-xl font-bold text-slate-50 mb-6">Start your transformation today.</h2>
-        <form method="post" class="space-y-4">
-          {% csrf_token %}
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="space-y-1.5">
-              <label for="{{ form.full_name.id_for_label }}" class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Full Name</label>
-              {{ form.full_name|add_class:"w-full rounded-xl border border-slate-700/80 bg-slate-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500/60 focus:border-primary-500/60 transition-all" }}
-              {% if form.full_name.errors %}<p class="text-xs text-red-400">{{ form.full_name.errors.0 }}</p>{% endif %}
-            </div>
-            <div class="space-y-1.5">
-              <label for="{{ form.phone.id_for_label }}" class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Phone</label>
-              {{ form.phone|add_class:"w-full rounded-xl border border-slate-700/80 bg-slate-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500/60 focus:border-primary-500/60 transition-all" }}
-              {% if form.phone.errors %}<p class="text-xs text-red-400">{{ form.phone.errors.0 }}</p>{% endif %}
-            </div>
-          </div>
-          <div class="space-y-1.5">
-            <label for="{{ form.email.id_for_label }}" class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Email</label>
-            {{ form.email|add_class:"w-full rounded-xl border border-slate-700/80 bg-slate-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500/60 focus:border-primary-500/60 transition-all" }}
-            {% if form.email.errors %}<p class="text-xs text-red-400">{{ form.email.errors.0 }}</p>{% endif %}
-          </div>
-          <div class="space-y-1.5">
-            <label for="{{ form.message.id_for_label }}" class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Your Goals</label>
-            {{ form.message|add_class:"w-full rounded-xl border border-slate-700/80 bg-slate-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-600 h-28 resize-none focus:outline-none focus:ring-2 focus:ring-primary-500/60 focus:border-primary-500/60 transition-all" }}
-            {% if form.message.errors %}<p class="text-xs text-red-400">{{ form.message.errors.0 }}</p>{% endif %}
-          </div>
-          <button type="submit" class="btn-shimmer cta-glow w-full rounded-full bg-primary-600 hover:bg-primary-500 px-4 py-3 text-sm font-bold uppercase tracking-wider text-slate-50 shadow-lg shadow-primary-500/30 transition-all duration-200">
-            Submit &amp; send details →
-          </button>
-          <p class="text-[11px] text-slate-600 text-center">
-            Your enquiry is instantly routed to our team via Telegram for a fast response.
-          </p>
-        </form>
-      </div>
-
-      <!-- Map -->
-      <div class="rounded-3xl overflow-hidden border border-slate-800 bg-slate-900/80">
-        {% if site_settings and site_settings.google_maps_embed_url %}
-        <iframe
-          src="{{ site_settings.google_maps_embed_url|safe }}"
-          width="100%"
-          height="240"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
-        {% else %}
-        <div class="p-6 text-sm text-slate-500 text-center">
-          Add a Google Maps embed URL in Site settings to display your location here.
-        </div>
-        {% endif %}
-      </div>
+  <div class="lg:col-span-5">
+    {% if site_settings and site_settings.phone_primary or site_settings and site_settings.email or site_settings and site_settings.address_line %}
+    <div class="rv mb-12 space-y-3 text-[17px]">
+      {% if site_settings.phone_primary %}<p><span class="label block">Phone</span><a class="text-white hover:text-ember-soft" href="tel:{{ site_settings.phone_primary }}">{{ site_settings.phone_primary }}</a></p>{% endif %}
+      {% if site_settings.email %}<p><span class="label block">Email</span><a class="text-white hover:text-ember-soft" href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></p>{% endif %}
+      {% if site_settings.address_line %}<p><span class="label block">Address</span><span class="text-white">{{ site_settings.address_line }}, {{ site_settings.city }} {{ site_settings.state }}</span></p>{% endif %}
     </div>
+    {% endif %}
+    {% if faqs %}
+    <h2 class="rv mb-6 text-4xl font-bold text-white">Questions</h2>
+    <div class="border-t border-white/10">
+      {% for faq in faqs %}
+      <details class="rv group border-b border-white/10" {% if forloop.first %}open{% endif %}>
+        <summary class="flex items-start justify-between gap-6 py-5 text-[17px] font-semibold text-white">
+          {{ faq.question }}
+          <span class="plus mt-0.5 text-2xl leading-none text-ember-soft" aria-hidden="true">+</span>
+        </summary>
+        <p class="pb-6 pr-10 text-bone-3">{{ faq.answer }}</p>
+      </details>
+      {% endfor %}
+    </div>
+    {% endif %}
   </div>
 </section>
-
 {% endblock %}

@@ -1,0 +1,17 @@
+{% load site_extras %}
+<section class="relative isolate overflow-hidden bg-ink-0 pb-16 pt-40 sm:pb-24 sm:pt-48">
+  {% with slide=hero_slides|slice:pick|first %}
+  {% if slide and slide.has_video %}
+  <img data-drift src="{{ slide.background_video.url|cld_poster:'so_3,c_fill,ar_21:9,w_1920,q_auto' }}" alt="" aria-hidden="true" width="1920" height="823" fetchpriority="high"
+       class="graded absolute inset-0 -z-10 h-[112%] w-full -translate-y-[6%] object-cover" />
+  <div class="scrim-hero absolute inset-0 -z-10"></div>
+  {% endif %}
+  {% endwith %}
+  <div class="wrap">
+    <h1 class="hero-in max-w-[16ch] text-[clamp(3rem,7.5vw,7rem)] font-bold text-white">
+      <span class="line"><span>{{ line1 }}</span></span>
+      <span class="line"><span class="text-white/55">{{ line2 }}</span></span>
+    </h1>
+    {% if lead %}<p class="hero-fade lead mt-6 max-w-xl text-bone">{{ lead }}</p>{% endif %}
+  </div>
+</section>

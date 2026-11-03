@@ -48,6 +48,7 @@ def about(request):
         "site_settings": settings,
         "trainers": trainers,
         "testimonials": testimonials,
+        "hero_slides": HeroSlide.objects.filter(is_active=True),
     }
     return render(request, "core/about.html", context)
 
@@ -60,6 +61,7 @@ def services(request):
         "site_settings": settings,
         "services": services_qs,
         "plans": plans,
+        "hero_slides": HeroSlide.objects.filter(is_active=True),
     }
     return render(request, "core/services.html", context)
 
@@ -70,6 +72,7 @@ def trainers(request):
     context = {
         "site_settings": settings,
         "trainers": trainers_qs,
+        "hero_slides": HeroSlide.objects.filter(is_active=True),
     }
     return render(request, "core/trainers.html", context)
 
@@ -113,6 +116,7 @@ def contact(request):
         "site_settings": settings,
         "form": form,
         "faqs": faqs,
+        "hero_slides": HeroSlide.objects.filter(is_active=True),
     }
     return render(request, "core/contact.html", context)
 

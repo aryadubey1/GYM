@@ -1,6 +1,6 @@
 ## FitForge Gym Website (Django + Tailwind CDN)
 
-**Stack**: Django 5, Django REST Framework, HTML templates, Tailwind CSS via CDN, vanilla JS, Telegram Bot API.
+**Stack**: Django 5, Django REST Framework, HTML templates, Tailwind CSS (compiled: `bin/build-css.sh` → `static/css/app.css`, commit the output), GSAP + Lenis motion (`static/js/site.js`), Telegram Bot API.
 
 ### 1. Setup & Run
 
