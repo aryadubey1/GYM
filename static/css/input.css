@@ -24,7 +24,7 @@
   .btn-ember { @apply btn bg-ember text-white hover:bg-ember-hover; }
   .btn-ghost { @apply btn border border-white/25 text-bone hover:border-white/60 hover:bg-white/5; }
   .btn .arr { transition: transform .35s var(--ease-expo); }
-  .btn:hover .arr { transform: translateX(4px); }
+  @media (hover: hover) and (pointer: fine) { .btn:hover .arr { transform: translateX(4px); } }
   .label { @apply text-[13px] font-semibold uppercase tracking-[0.14em] text-bone-3; }
   .lead { @apply text-lg sm:text-xl leading-relaxed text-bone-2; }
   .h-sec { font-size: clamp(2.6rem, 5.2vw, 4.75rem); }
@@ -70,11 +70,11 @@
 /* Program rows */
 .prog-row { transition: background-color .35s var(--ease-quart); }
 .prog-row .prog-name { transition: transform .5s var(--ease-expo), color .3s; }
-.prog-row:hover .prog-name { transform: translateX(10px); }
+@media (hover: hover) and (pointer: fine) { .prog-row:hover .prog-name { transform: translateX(10px); } }
 .prog-row:hover { background: #121214; }
 
 .coach-photo img { transition: transform .9s var(--ease-expo); }
-.coach:hover .coach-photo img { transform: scale(1.04); }
+@media (hover: hover) and (pointer: fine) { .coach:hover .coach-photo img { transform: scale(1.04); } }
 
 /* Marquee */
 .marquee { display: flex; width: max-content; animation: marquee 48s linear infinite; }
