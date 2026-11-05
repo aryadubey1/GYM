@@ -95,7 +95,7 @@
 
     // Lenis on the GSAP ticker: one clock for smooth scroll and scroll-linked motion.
     if (window.Lenis) {
-      const lenis = new window.Lenis({ duration: 1.1, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+      const lenis = new window.Lenis({ lerp: 0.085, wheelMultiplier: 0.9 }); // house feel (vale); touch stays native
       lenis.on("scroll", ScrollTrigger.update);
       gsap.ticker.add((t) => lenis.raf(t * 1000));
       gsap.ticker.lagSmoothing(0);
@@ -126,20 +126,30 @@
       onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.95, ease: EXPO, stagger: 0.07, overwrite: true }),
     });
 
-    // Statement fills word by word with the scrollbar.
+    /* Scroll picks where a fill should be; it gets there at its own speed (never faster than `rate` per second,
+       a far jump squeezed into 1.8 s), so a fast wheel or thumb flick can't rush it (playbooks/scroll-feel.md). */
+    const pacedFill = (st, render, rate) => {
+      let target = 0, v = 0, shown = -1;
+      ScrollTrigger.create(Object.assign({}, st, { onUpdate: (s) => { target = s.progress; } }));
+      gsap.ticker.add(() => {
+        const dt = Math.min(0.05, gsap.ticker.deltaRatio(60) / 60), d = target - v, ad = Math.abs(d);
+        if (ad < 1e-4) v = target;
+        else v += Math.sign(d) * Math.min(ad * (1 - Math.exp(-8 * dt)), Math.max(rate * (d < 0 ? 2 : 1), ad / 1.8) * dt);
+        if (Math.abs(v - shown) > 1e-4) { shown = v; render(v); }
+      });
+    };
+
+    // Statement fills word by word as you scroll (paced).
     $$("[data-fill]").forEach((el) => {
       const words = el.textContent.trim().split(/\s+/);
       el.innerHTML = words.map((w) => `<span class="w">${w}</span>`).join(" ");
       el.setAttribute("aria-label", words.join(" "));
       const spans = $$(".w", el);
       spans.forEach((s) => s.setAttribute("aria-hidden", "true"));
-      ScrollTrigger.create({
-        trigger: el, start: "top 80%", end: "bottom 45%", scrub: true,
-        onUpdate: (st) => {
-          const p = st.progress * spans.length;
-          spans.forEach((s, k) => s.style.setProperty("--o", String(0.18 + 0.82 * Math.min(1, Math.max(0, p - k)))));
-        },
-      });
+      pacedFill({ trigger: el, start: "top 80%", end: "bottom 45%" }, (v) => {
+        const p = v * spans.length;
+        spans.forEach((s, k) => s.style.setProperty("--o", String(0.18 + 0.82 * Math.min(1, Math.max(0, p - k)))));
+      }, 0.7);
       spans.forEach((s) => s.style.setProperty("--o", "0.18"));
     });
 
